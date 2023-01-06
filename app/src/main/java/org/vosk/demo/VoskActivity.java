@@ -32,6 +32,7 @@ import org.vosk.android.SpeechService;
 import org.vosk.android.SpeechStreamService;
 import org.vosk.android.StorageService;
 
+import android.hardware.usb.*;
 import com.hoho.android.usbserial.driver.*;
 
 import java.io.IOException;
