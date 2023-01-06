@@ -34,5 +34,4 @@ dependencies {
     implementation 'net.java.dev.jna:jna:5.8.0@aar'
     implementation group: 'com.alphacephei', name: 'vosk-android', version: '0.3.32'
     implementation project(':models')
-    compile 'com.github.mik3y:usb-serial-for-android:3.4.6'
 }
