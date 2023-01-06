@@ -127,7 +127,7 @@ public class VoskActivity extends Activity implements
 
     @Override
     public void onFinalResult(String hypothesis) {
-        resultView.append(hypothesis + "\n");
+        resultView.append("@" + hypothesis + "\n");
         setUiState(STATE_DONE);
         if (speechStreamService != null) {
             speechStreamService = null;
