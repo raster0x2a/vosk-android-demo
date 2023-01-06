@@ -32,12 +32,15 @@ import org.vosk.android.SpeechService;
 import org.vosk.android.SpeechStreamService;
 import org.vosk.android.StorageService;
 
+import com.hoho.android.usbserial.driver.*;
+
 import java.io.IOException;
 import java.io.InputStream;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
 
 public class VoskActivity extends Activity implements
         RecognitionListener {
@@ -122,7 +125,7 @@ public class VoskActivity extends Activity implements
 
     @Override
     public void onResult(String hypothesis) {
-        resultView.append(hypothesis + "\n");
+        //resultView.append(hypothesis + "\n");
     }
 
     @Override
@@ -134,9 +137,34 @@ public class VoskActivity extends Activity implements
         }
     }
 
+    private void usbTest() {
+        // Find all available drivers from attached devices.
+        UsbManager manager = (UsbManager) getSystemService(Context.USB_SERVICE);
+        List<UsbSerialDriver> availableDrivers = UsbSerialProber.getDefaultProber().findAllDrivers(manager);
+        if (availableDrivers.isEmpty()) {
+            return;
+        }
+
+        // Open a connection to the first available driver.
+        UsbSerialDriver driver = availableDrivers.get(0);
+        UsbDeviceConnection connection = manager.openDevice(driver.getDevice());
+        if (connection == null) {
+            // add UsbManager.requestPermission(driver.getDevice(), ..) handling here
+            return;
+        }
+
+        UsbSerialPort port = driver.getPorts().get(0); // Most devices have just one port (port 0)
+        port.open(connection);
+        port.setParameters(115200, 8, UsbSerialPort.STOPBITS_1, UsbSerialPort.PARITY_NONE);
+
+        port.write("hello".getBytes(), WRITE_WAIT_MILLIS);
+        //len = port.read(response, READ_WAIT_MILLIS);
+        port.close();
+    }
+
     @Override
     public void onPartialResult(String hypothesis) {
-        resultView.append(hypothesis + "\n");
+        //resultView.append(hypothesis + "\n");
     }
 
     @Override

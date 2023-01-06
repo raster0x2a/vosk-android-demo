@@ -22,5 +22,12 @@ allprojects {
         maven {
             url 'https://alphacephei.com/maven/'
         }
+        maven {
+            url 'https://jitpack.io'
+        }
     }
+}
+
+dependencies {
+    implementation 'com.github.mik3y:usb-serial-for-android:3.4.6'
 }
